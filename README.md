@@ -4,7 +4,7 @@
 <h1 align="center">💃DreamWaltz: Make a Scene with Complex 3D Animatable Avatars</h1>
 <p align="center">
 
-### [Project Page](https://dreamwaltz3d.github.io/) | [Paper](https://arxiv.org/pdf/2307.00818.pdf) | [Video]()
+### [Project Page](https://dreamwaltz3d.github.io/) | [Paper](https://arxiv.org/abs/2305.12529) | [Video]()
 
 This repository contains the official implementation of the following paper:
 > DreamWaltz: Make a Scene with Complex 3D Animatable Avatars
@@ -14,7 +14,7 @@ This repository contains the official implementation of the following paper:
 Code will be released soon.
 
 ## Introduction
-DreamWaltz is a learning framework for text-driven 3D animatable avatar creation using pretrained 2D diffusion model [ControlNet](https://github.com/lllyasviel/ControlNet) and human parametric model [SMPL](https://github.com/vchoutas/smplx). The core idea is to optimize a deformable NeRF representation from skeleton-conditioned diffusion supervisions, which ensures 3D consistency and generalization to arbitrary poses.
+DreamWaltz is a learning framework for text-driven 3D animatable avatar creation using pretrained 2D diffusion model [ControlNet](https://github.com/lllyasviel/ControlNet) and human parametric model [SMPL](https://smpl.is.tue.mpg.de/). The core idea is to optimize a deformable NeRF representation from skeleton-conditioned diffusion supervisions, which ensures 3D consistency and generalization to arbitrary poses.
 
 <p align="middle">
 <img src="assets/teaser.gif" width="80%">
