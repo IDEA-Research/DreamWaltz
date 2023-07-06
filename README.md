@@ -8,8 +8,8 @@
 
 This repository contains the official implementation of the following paper:
 > DreamWaltz: Make a Scene with Complex 3D Animatable Avatars
-<br>[Yukun Huang](https://github.com/hyk1996/)<sup>1,2</sup>, [Jianan Wang](https://github.com/wendyjnwang/)<sup>1</sup>, [Ailing Zeng](https://ailingzeng.site/)<sup>1</sup>, [He Cao](https://github.com/CiaoHe/)<sup>1</sup>, [Xianbiao Qi](http://scholar.google.com/citations?user=odjSydQAAAAJ&hl=zh-CN/)<sup>1</sup>, Yukai Shi<sup>1</sup>, Zheng-Jun Zha<sup>2</sup>, [Lei Zhang](https://www.leizhang.org/)<sup>1</sup><br>
-> <sup>1</sup>International Digital Economy Academy &nbsp; <sup>2</sup>University of Science and Technology of China
+<br>[Yukun Huang](https://github.com/hyk1996/)<sup>*1,2</sup>, [Jianan Wang](https://github.com/wendyjnwang/)<sup>*1</sup>, [Ailing Zeng](https://ailingzeng.site/)<sup>1</sup>, [He Cao](https://github.com/CiaoHe/)<sup>1</sup>, [Xianbiao Qi](http://scholar.google.com/citations?user=odjSydQAAAAJ&hl=zh-CN/)<sup>1</sup>, Yukai Shi<sup>1</sup>, Zheng-Jun Zha<sup>2</sup>, [Lei Zhang](https://www.leizhang.org/)<sup>1</sup><br>
+> <sup>∗</sup> Equal contribution. <sup>1</sup>International Digital Economy Academy &nbsp; <sup>2</sup>University of Science and Technology of China
 
 Code will be released soon.
 
