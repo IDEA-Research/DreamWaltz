@@ -4,7 +4,7 @@
 <h1 align="center">💃DreamWaltz: Make a Scene with Complex 3D Animatable Avatars</h1>
 <p align="center">
 
-### [Project Page](https://dreamwaltz3d.github.io/) | [Paper](https://arxiv.org/abs/2305.12529) | [Video]()
+### [Project Page](https://dreamwaltz3d.github.io/) | [Paper](https://arxiv.org/abs/2305.12529) | [Video](https://drive.google.com/drive/folders/19JnDQja4jZjHkHTBmLLppS6-Ic7Xv3nS?usp=sharing)
 
 This repository contains the official implementation of the following paper:
 > DreamWaltz: Make a Scene with Complex 3D Animatable Avatars
