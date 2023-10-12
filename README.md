@@ -4,7 +4,7 @@
 <h1 align="center">💃DreamWaltz: Make a Scene with Complex 3D Animatable Avatars</h1>
 <p align="center">
 
-### [Project Page](https://dreamwaltz3d.github.io/) | [Paper](https://arxiv.org/pdf/2307.00818.pdf) | [Video]()
+### [Project Page](https://dreamwaltz3d.github.io/) | [Arxiv](https://arxiv.org/abs/2305.12529) | [Video]()
 
 This repository contains the official implementation of NeurIPS 2023 paper:
 > DreamWaltz: Make a Scene with Complex 3D Animatable Avatars
