@@ -16,11 +16,16 @@ logging.set_verbosity_error()
 
 
 MODEL_CARDS = {
-    'pose': "fusing/stable-diffusion-v1-5-controlnet-openpose",
-    'depth': "fusing/stable-diffusion-v1-5-controlnet-depth",
-    'canny': "fusing/stable-diffusion-v1-5-controlnet-canny",
-    'seg': "fusing/stable-diffusion-v1-5-controlnet-seg",
-    'normal': "fusing/stable-diffusion-v1-5-controlnet-normal",
+    'pose': "lllyasviel/sd-controlnet-openpose",
+    'depth': "lllyasviel/sd-controlnet-depth",
+    'canny': "lllyasviel/sd-controlnet-canny",
+    'seg': "lllyasviel/sd-controlnet-seg",
+    'normal': "lllyasviel/sd-controlnet-normal",
+    # 'pose': "fusing/stable-diffusion-v1-5-controlnet-openpose",
+    # 'depth': "fusing/stable-diffusion-v1-5-controlnet-depth",
+    # 'canny': "fusing/stable-diffusion-v1-5-controlnet-canny",
+    # 'seg': "fusing/stable-diffusion-v1-5-controlnet-seg",
+    # 'normal': "fusing/stable-diffusion-v1-5-controlnet-normal",
 }
 
 class ControlNet(nn.Module):
