@@ -1,147 +1,413 @@
-
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>DreamWaltz: Make a Scene with Complex 3D Animatable Avatars</title>
-    <link href="./style.css" rel="stylesheet">
-  </head>
 
-  <body>
-      <div class="content">
-        <!-- <img src="assets/logo.png" class="teaser-gif" style="width:30%"> -->
-        <h1><strong>DreamWaltz: Make a Scene with Complex 3D Animatable Avatars</strong></h1>
-        <p id="authors">
-          <a href="" style="pointer-events: none; text-decoration:none; color: black;">Yukun Huang</a><sup>1,2</sup>&nbsp;&nbsp;
-          <a href="" style="pointer-events: none; text-decoration:none; color: black;">Jianan Wang</a><sup>1</sup>&nbsp;&nbsp;
-          <a href="" style="pointer-events: none; text-decoration:none; color: black;">Ailing Zeng</a><sup>1</sup>&nbsp;&nbsp;
-          <a href="" style="pointer-events: none; text-decoration:none; color: black;">He Cao</a><sup>1</sup>&nbsp;&nbsp;
-          <a href="" style="pointer-events: none; text-decoration:none; color: black;">Xianbiao Qi</a><sup>1</sup>&nbsp;&nbsp;
-          <a href="" style="pointer-events: none; text-decoration:none; color: black;">Yukai Shi</a><sup>1</sup>&nbsp;&nbsp;
-          <br>
-          <a href="" style="pointer-events: none; text-decoration:none; color: black;">Zheng-Jun Zha</a><sup>2</sup>&nbsp;&nbsp;
-          <a href="" style="pointer-events: none; text-decoration:none; color: black;">Lei Zhang</a><sup>1</sup>&nbsp;&nbsp;
-          <br><br>
-          <span style="font-size: 20px;"><sup>1</sup>International Digital Economy Academy</span>
-          &nbsp;
-          <span style="font-size: 20px"><sup>2</sup>University of Science and Technology of China</span>
-        </p>
-        <p style="text-align: center;">
-          <a href="https://arxiv.org/abs/2305.12529" target="_blank">[Paper]</a>&emsp;&emsp;
-          <a href="https://github.com/IDEA-Research/DreamWaltz" target="_blank">[Code]</a>&emsp;&emsp;
-          <a href="https://drive.google.com/drive/folders/19JnDQja4jZjHkHTBmLLppS6-Ic7Xv3nS?usp=sharing" target="_blank">[Video]</a>
-        </p>
-        <br>
-        <img src="assets/teaser.gif" class="teaser-gif" style="width:100%">
-        <p style="text-align: justify; font-size: 18px;">
-          <b>DreamWaltz</b> focuses on text-driven 3D animatable avatar creation using pretrained 2D diffusion model <b>ControlNet</b>
-          and human parametric model <b>SMPL</b>, which can (a) create animatable avatars, and (b-d) make a complex 3D scene with diverse interactions
-          (b) between avatar and object, (c) between avatar and scene, or (d) across avatars.
-        </p>
-      </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="DreamWaltz creates complex 3D animatable avatars from texts">
+  <meta name="keywords" content="DreamWaltz, Avatars, Text-to-3D">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DreamWaltz: Make a Scene with Complex 3D Animatable Avatars</title>
 
-      <div class="content">
-        <h2>Abstract</h2>
-        <p style="text-align: justify; font-size: 17px;">
-          We present DreamWaltz, a novel framework for generating and animating complex 3D avatars given text guidance and parametric human body prior.
-          While recent methods have shown encouraging results for text-to-3D generation of common objects, creating high-quality and animatable 3D avatars remains challenging.
-          To create high-quality 3D avatars, DreamWaltz proposes 3D-consistent occlusion-aware Score Distillation Sampling (SDS) to optimize implicit neural representations with canonical poses.
-          It provides view-aligned supervision via 3D-aware skeleton conditioning which enables complex avatar generation without artifacts and multiple faces.
-          For animation, our method learns an animatable and generalizable avatar representation which could map arbitrary poses to the canonical pose representation.
-          Extensive evaluations demonstrate that DreamWaltz is an effective and robust approach for creating 3D avatars that can take on complex shapes and appearances as well as novel poses for animation.
-          The proposed framework further enables the creation of complex scenes with diverse compositions, including avatar-avatar, avatar-object and avatar-scene interactions.
-        </p>
-      </div>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
 
-      <div class="content">
-        <h2>Demo Video</h2>
-        <video class="center" style="width: 100%" src="assets/waltz_demo.mp4" controls></video>
-      </div>
+    function gtag() {
+      dataLayer.push(arguments);
+    }
 
-      <div class="content">
-        <h2>Approach</h2>
-        <p style="font-size: 18px;">
-          <b>DreamWaltz</b> is a two-stage framework for static and animatable avatar creation. Figure (a) shows how to create a static avatar,
-          and Figure (b) demonstrates how to learn an animatable avatar.
-        </p>
-        <img class="summary-img" src="assets/method_a.png" style="width:85%;">
-        <p class=caption style="width:85%; margin-left: 73px;">
-          (a) <b>Static Avatar Creation.</b> In each iteration, the same camera view is used to render the 3D avatar and the canonical SMPL mesh,
-          resulting in rendered image and skeleton, respectively. ControlNet conditioned on the text prompt and the skeleton provides <b><font color="#0000FF">view-consistent
-          score distillation</font></b> gradients for 3D avatar genertion.
-        </p>
-        <img class="summary-img" src="assets/method_b.png" style="width:85%;">
-        <p class=caption style="width:85%; margin-left: 73px;">
-          (b) <b>Animatable Avatar Learning.</b> In each iteration, we sample a SMPL mesh of random pose to drive 3D avatar and
-          condition ControlNet simultaneously, enabling <b><font color="#0000FF">pose-consistent score distillation</font></b>. A generalizable density weighting module is introduced to refine
-          vertex-based pose transformation for animation of complex avatars.
-        </p>
-      </div>
+    gtag('js', new Date());
 
-      <div class="content">
-        <h2>Static Avatars</h2>
-        <p style="font-size: 18px;">
-          Given only a textual description, DreamWaltz can generate the corresponding canonical 3D avatar in an hour,
-          without the limitation of multiple faces or skin-tight appearances.
-        </p>
-        <video class="center" loop="loop" style="width: 90%" src="assets/canonical.mp4" controls></video>
-        <!-- <img src="assets/canonical.gif" class="teaser-gif" style="width:90%"> -->
-      </div>
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
 
-      <div class="content">
-        <h2>Animatable Avatars</h2>
-        <p style="font-size: 18px;">
-          Given motion sequences, DreamWaltz can animate 3D avatars and produce 3D-aware videos without re-training.
-        </p>
-        <video class="center" loop="loop" style="width: 90%" src="assets/animation_sp.mp4" controls></video>
-      </div>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 
-      <div class="content">
-        <h2>Complex Scenes</h2>
-        <p style="font-size: 18px;">
-          DreamWaltz is able to make scenes with animatable avatars and diverse interactions, including:
-          avatar-object, avatar-scene, and avatar-avatar interactions.
-        </p>
-        <h3>Avatar-Object Interaction</h3>
-        <video class="center" loop="loop" style="width: 90%" src="assets/animation_obj.mp4" controls></video>
-        <h3>Avatar-Scene Interaction</h3>
-        <video class="center" loop="loop" style="width: 90%" src="assets/animation_scene.mp4" controls></video>
-        <h3>Avatar-Avatar Interaction</h3>
-        <video class="center" loop="loop" style="width: 90%" src="assets/animation_mp.mp4" controls></video>
-      </div>
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./assets/logo.png">
 
-      <div class="content">
-      <h2>Citation</h2>
-      <code style="font-size: 14px;">
-        @article{huang2023dreamwaltz,<br>
-          &nbsp;title={DreamWaltz: Make a Scene with Complex 3D Animatable Avatars},<br>
-          &nbsp;author={Yukun Huang and Jianan Wang and Ailing Zeng and He Cao and Xianbiao Qi and Yukai Shi and Zheng-Jun Zha and Lei Zhang},<br>
-          &nbsp;year={2023},<br>
-          &nbsp;eprint={2305.12529},<br>
-          &nbsp;archivePrefix={arXiv},<br>
-          &nbsp;primaryClass={cs.CV}<br>
-        }
-        <br><br>
-        @article{huang2023dreamtime,<br>
-          &nbsp;title={DreamTime: An Improved Optimization Strategy for Text-to-3D Content Creation},<br>
-          &nbsp;author={Yukun Huang and Jianan Wang and Yukai Shi and Xianbiao Qi and Zheng-Jun Zha and Lei Zhang},<br>
-          &nbsp;year={2023},<br>
-          &nbsp;eprint={2306.12422},<br>
-          &nbsp;archivePrefix={arXiv},<br>
-          &nbsp;primaryClass={cs.CV}<br>
-        }
-      </code>
-      </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <!-- bulma css template -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <!-- model viewer -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
+</head>
 
-      <br><br>
-      <footer class="footer">
-        <div class="container">
-          <div class="columns is-centered">
-            <!-- <div class="content"> -->
-              website template from <a style="font-size: 18px;" href="https://idea-research.github.io/HumanSD/">HumanSD</a>
-            <!-- </div> -->
+<body>
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">DreamWaltz: Make a Scene with Complex 3D Animatable Avatars</h1>
+          <div class="is-size-4 publication-authors">
+            <span style="font-weight: bold;">NeurIPS 2023</span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=lHb5gzoAAAAJ">Yukun Huang</a><sup>1,2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://github.com/wendyjnwang">Jianan Wang</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://ailingzeng.site">Ailing Zeng</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://github.com/CiaoHe">He Cao</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=odjSydQAAAAJ">Xianbiao Qi</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://github.com/shiyukai-thu">Yukai Shi</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://en.auto.ustc.edu.cn/2021/0616/c26828a513174/page.htm">Zheng-Jun Zha</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.leizhang.org">Lei Zhang</a><sup>1</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>International Digital Economy Academy,</span>
+            <span class="author-block"><sup>2</sup>University of Science and Technology of China</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2305.12529.pdf"
+                    class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2305.12529"
+                    class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=xxxxxxxx"
+                    class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/IDEA-Research/DreamWaltz"
+                    class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Data Link. -->
+              <span class="link-block">
+                <a href="https://drive.google.com/drive/folders/19JnDQja4jZjHkHTBmLLppS6-Ic7Xv3nS?usp=sharing"
+                    class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
           </div>
         </div>
-      </footer>
-      <br><br>
-  </body>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <!-- Teaser. -->
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./assets/teaser.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf" style="font-weight: bold;">DreamWaltz</span> enables high-quality animatable avatar generation from texts (a), ready for 3D scene composition with diverse avatar-object (b), avatar-scene (c), and avatar-avatar (d) interactions.
+      </h2>
+    </div>
+
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We present DreamWaltz, a novel framework for generating and animating complex 3D avatars given text guidance and parametric human body prior. While recent methods have shown encouraging results for text-to-3D generation of common objects, creating high-quality and animatable 3D avatars remains challenging.
+            To create high-quality 3D avatars, DreamWaltz proposes 3D-consistent occlusion-aware Score Distillation Sampling (SDS) to optimize implicit neural representations with canonical poses. It provides view-aligned supervision via 3D-aware skeleton conditioning which enables complex avatar generation without artifacts and multiple faces.
+            For animation, our method learns an animatable 3D avatar representation from abundant image priors of diffusion model conditioned on various poses, which could animate complex non-rigged avatars given arbitrary poses without retraining.
+            Extensive evaluations demonstrate that DreamWaltz is an effective and robust approach for creating 3D avatars that can take on complex shapes and appearances as well as novel poses for animation. The proposed framework further enables the creation of complex scenes with diverse compositions, including avatar-avatar, avatar-object and avatar-scene interactions.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- News. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">What's New</h2>
+        <div class="content has-text-justified">
+          <span style="font-size: large;font-style: italic;">📢 2023-09-21: Accepted by NeurIPS 2023!</span><br>
+          <span style="font-size: large;font-style: italic;">🔥 2023-10-11: Training and inference codes are released!</span><br>
+          <span style="font-size: large;font-style: italic;">🚀 2023-11-11: Results of high-resolution 3D avatars are provided!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="assets/legacy/waltz_demo.mp4"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop is-centered is-full-width">
+    <!-- Methodology -->
+    <!-- <h2 class="title is-3">Methodology</h2> -->
+    <!--/ Methodology -->
+    <!-- Avatar Creation (High-Res.) -->
+    <h2 class="title is-3">Avatar Creation (🚀Better)</h2>
+    <!-- Canonical (High-Res.) -->
+    <h3 class="title is-4">High-Resolution Canonical Avatars</h3>
+    <div class="content" style="font-size: 19px;">
+      <p>
+        Unlike the original DreamWaltz which only uses 64x64 resolution Latent-NeRF as 3D avatar representation,
+        we upgrade it to <b>512x512</b> resolution RGB-NeRF, which significantly improves the visual quality.
+      </p>
+      <p>
+        Moreover, we adopt the advanced <a href="https://huggingface.co/lllyasviel/control_v11p_sd15_openpose">ControlNet-openpose-v1.1</a>
+        and  <a href="https://smpl-x.is.tue.mpg.de/">SMPL-X</a> for DreamWaltz.
+      </p>
+      <p>
+        For customized avatar creation (e.g. the bottom right <a href="https://civitai.com/models/61749/bocchi-the-rock-anime-style-lora">Bocchi</a> example), LoRA weights from <a href="https://civitai.com/">Civitai</a> are supported.
+      </p>
+      <video id="canonical" controls autoplay muted loop playsinline width="95%">
+        <source src="./assets/avatar/canonical_hr.mp4" type="video/mp4">
+      </video>
+    </div>
+    <!--/ Canonical (High-Res.) -->
+    <!-- Mesh Extraction -->
+    <h3 class="title is-4">Exported Meshes</h3>
+    <div class="content" style="font-size: 19px;">
+      <p>
+        Textured meshes can be extracted from our generated avatars using Marching Cubes algorithm.
+      </p>
+      <div class="level">
+        <div class="level-item">
+        <model-viewer
+          src="./assets/mesh/gundam.glb"
+          style="width: 25%; height: 300px;"
+          auto-rotate shadow-intensity="1" camera-controls touch-action="pan-y">
+        </model-viewer>
+        <model-viewer
+          src="./assets/mesh/doctor.glb"
+          style="width: 25%; height: 300px;"
+          auto-rotate shadow-intensity="1" camera-controls touch-action="pan-y">
+        </model-viewer>
+        <model-viewer
+          src="./assets/mesh/leia.glb"
+          style="width: 25%; height: 300px;"
+          auto-rotate shadow-intensity="1" camera-controls touch-action="pan-y">
+        </model-viewer>
+        <model-viewer
+          src="./assets/mesh/flynn.glb"
+          style="width: 25%; height: 300px;"
+          auto-rotate shadow-intensity="1" camera-controls touch-action="pan-y">
+        </model-viewer>
+        </div>
+      </div>
+      <p>
+        The following results are mesh animations by <a href="https://www.mixamo.com/">Mixamo</a>, complementary to our native NeRF animation method.
+      </p>
+      <div class="level">
+        <div class="level-item">
+        <model-viewer
+          src="./assets/mesh/gundam - Flair.glb"
+          style="width: 33%; height: 300px;"
+          camera-orbit="0deg 90deg 1mm"
+          camera-target="0m 6mm 0m"
+          autoplay shadow-intensity="1" camera-controls touch-action="pan-y">
+        </model-viewer>
+        <model-viewer
+          src="./assets/mesh/naruto - Situps.glb"
+          style="width: 33%; height: 300px;"
+          camera-orbit="0deg 60deg 1mm"
+          camera-target="0m 5mm 3mm"
+          autoplay shadow-intensity="1" camera-controls touch-action="pan-y">
+        </model-viewer>
+        <model-viewer
+          src="./assets/mesh/flynn - Headspin Start.glb"
+          style="width: 33%; height: 300px;"
+          camera-orbit="0deg 90deg 1mm"
+          camera-target="0m 8mm 0m"
+          autoplay shadow-intensity="1" camera-controls touch-action="pan-y">
+        </model-viewer>
+        </div>
+      </div>
+    </div>
+    <!--/ Mesh Extraction -->
+    <!--/ Avatar Creation (High-Res.) -->
+    <br />
+    <!-- Avatar Creation -->
+    <h2 class="title is-3">Avatar Creation</h2>
+    <!-- Canonical -->
+    <h3 class="title is-4">Canonical Avatars</h3>
+    <div class="content" style="font-size: 19px;">
+      <p>
+        Given only a textual description, DreamWaltz can generate the corresponding canonical 3D avatar in an hour, without the limitation of multiple faces or skin-tight appearances.
+      </p>
+      <div class="slider-container">
+        <div class="slider">
+          <div class="slides">
+            <div id="canonical_1" class="slide">
+              <span class="slide__text">
+                <video autoplay muted loop playsinline>
+                  <source src="./assets/avatar/canonical_1.mp4" type="video/mp4">
+                </video>
+              </span>
+              <a class="slide__prev" href="#canonical_2" title="Next"></a>
+              <a class="slide__next" href="#canonical_2" title="Next"></a>
+            </div>
+            <div id="canonical_2" class="slide">
+              <span class="slide__text">
+                <video autoplay muted loop playsinline>
+                  <source src="./assets/avatar/canonical_2.mp4" type="video/mp4">
+                </video>
+              </span>
+            </span>
+              <a class="slide__prev" href="#canonical_1" title="Prev"></a>
+              <a class="slide__next" href="#canonical_1" title="Next"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Canonical -->
+    <!-- Animatable -->
+    <h3 class="title is-4">Animatable Avatars</h3>
+    <div class="content" style="font-size: 19px;">
+      <p>
+        Given motion sequences, DreamWaltz can animate 3D avatars and produce 3D-aware videos without re-training.
+      </p>
+      <video id="animatable" controls autoplay muted loop playsinline width="95%">
+        <source src="./assets/avatar/animatable.mp4" type="video/mp4">
+      </video>
+    </div>
+    <!--/ Animatable -->
+    <!--/ Avatar Creation -->
+    <br />
+    <!-- Scene Composition -->
+    <h2 class="title is-3">Scene Composition</h2>
+    <div class="content" style="font-size: 19px;">
+      <p>
+        DreamWaltz is able to make scenes with animatable avatars and diverse interactions, including: avatar-object, avatar-scene, and avatar-avatar interactions.
+      </p>
+    </div>
+    <!-- Avatar-Object -->
+    <h3 class="title is-4">Avatar-Object Interaction</h3>
+    <div class="content" style="font-size: 19px;">
+      <video id="avatar_object" controls autoplay muted loop playsinline width="95%">
+        <source src="./assets/scene/object.mp4" type="video/mp4">
+      </video>
+    </div>
+    <!--/ Avatar-Object -->
+    <!-- Avatar-Scene -->
+    <h3 class="title is-4">Avatar-Scene Interaction</h3>
+    <div class="content" style="font-size: 19px;">
+      <video id="avatar_scene" controls autoplay muted loop playsinline width="95%">
+        <source src="./assets/scene/scene.mp4" type="video/mp4">
+      </video>
+    </div>
+    <!--/ Avatar-Scene -->
+    <!-- Avatar-Avatar -->
+    <h3 class="title is-4">Avatar-Avatar Interaction</h3>
+    <div class="content" style="font-size: 19px;">
+      <video id="avatar_avatar" controls autoplay muted loop playsinline width="95%">
+        <source src="./assets/scene/avatar.mp4" type="video/mp4">
+      </video>
+    </div>
+    <!--/ Avatar-Avatar -->
+    <!--/ Scene Composition -->
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+  <h2 class="title">BibTeX</h2>
+  <pre><code style="font-size: 15px;">@article{huang2023dreamwaltz,
+    title={DreamWaltz: Make a Scene with Complex 3D Animatable Avatars},
+    author={Yukun Huang and Jianan Wang and Ailing Zeng and He Cao and Xianbiao Qi and Yukai Shi and Zheng-Jun Zha and Lei Zhang},
+    year={2023},
+    eprint={2305.12529},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV},
+  }
+  
+  @article{huang2023dreamtime,
+    title={DreamTime: An Improved Optimization Strategy for Text-to-3D Content Creation},
+    author={Yukun Huang and Jianan Wang and Yukai Shi and Xianbiao Qi and Zheng-Jun Zha and Lei Zhang},
+    year={2023},
+    eprint={2306.12422},
+    archivePrefix={arXiv},
+    primaryClass={cs.CV},
+  }</code></pre>
+  </div>
+</section>
+
+</body>
+
+<footer class="footer">
+  <div class="container">
+
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>This website is constructed using the template provided by
+            <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a> and
+            <a href="https://github.com/dreamgaussian/dreamgaussian.github.io">DreamGaussian</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </html>
