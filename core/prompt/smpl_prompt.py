@@ -365,45 +365,37 @@ class _HumanScene(object):
 
         vertices = torch.from_numpy(self.vertices[0]).to(device)
         faces = torch.from_numpy(self.triangles.astype(np.int64)).to(device)
-        translation = self.smpl_params['transl'].to(device)
+        # translation = self.smpl_params['transl'].to(device)
 
         # print(vertices.shape)     torch.Size([6890, 3])
         # print(faces.shape)        torch.Size([13776, 3])
         # print(translation.shape)  torch.Size([1, 3])
 
         # add the translation
-        vertices = vertices + translation
+        # vertices = vertices + translation
 
         # upside down the mesh
-        rot = Rotation.from_euler('z', 180, degrees=True).as_matrix().astype(np.float32)
-        rot = torch.from_numpy(rot).to(device)
+        # rot = Rotation.from_euler('z', 180, degrees=True).as_matrix().astype(np.float32)
+        # rot = torch.from_numpy(rot).to(device)
 
-        vertices = torch.matmul(rot, vertices.T).T
+        # vertices = torch.matmul(rot, vertices.T).T
 
         # Initialize each vertex to be white in color.
         verts_rgb = torch.ones_like(vertices)[None]  # (B, V, 3)
         textures = pytorch3d.renderer.TexturesVertex(verts_features=verts_rgb)
         mesh = pytorch3d.structures.Meshes(verts=[vertices], faces=[faces], textures=textures)
 
+        focal = intrinsics[0][0].item()
+
         R = torch.from_numpy(extrinsic[np.newaxis, :3, :3])
         T = torch.from_numpy(extrinsic[np.newaxis, :3, 3])
+        R = R.transpose(1,2)
+        R[:,:,0:2] = -R[:,:,0:2] # y = -y, z = -z
 
         # print(R.shape)  # [4, 4]
         # print(T.shape)  # [4, 4]
 
         if not hasattr(self, 'mesh_renderer'):
-            # Initialize a camera.
-            # R: Rotation matrix of shape (N, 3, 3)
-            # T: Translation matrix of shape (N, 3)
-            cameras = pytorch3d.renderer.PerspectiveCameras(
-                focal_length=((2 * focal / min(height, width),
-                               2 * focal / min(height, width)),),
-                R=R,
-                T=T,
-                image_size=((height, width),),
-                device=device,
-            )
-
             # Define the settings for rasterization and shading.
             raster_settings = pytorch3d.renderer.RasterizationSettings(
                 # image_size=(height, width),   # (H, W)
@@ -428,12 +420,10 @@ class _HumanScene(object):
             # Create a phong renderer by composing a rasterizer and a shader.
             renderer = pytorch3d.renderer.MeshRenderer(
                 rasterizer=pytorch3d.renderer.MeshRasterizer(
-                    cameras=cameras,
                     raster_settings=raster_settings
                 ),
                 shader=pytorch3d.renderer.SoftPhongShader(
                     device=device,
-                    cameras=cameras,
                     lights=lights,
                     materials=materials
                 )
@@ -441,8 +431,21 @@ class _HumanScene(object):
 
             self.mesh_renderer = renderer
 
+        # Initialize a camera.
+        # R: Rotation matrix of shape (N, 3, 3)
+        # T: Translation matrix of shape (N, 3)
+        cameras = pytorch3d.renderer.PerspectiveCameras(
+            focal_length=(
+                (2 * focal / min(height, width), 2 * focal / min(height, width)),
+            ),
+            R=R,
+            T=T,
+            image_size=((height, width),),
+            device=device,
+        )
+
         # Do rendering
-        color_batch = self.mesh_renderer(mesh)  # [1, 512, 512, 4]
+        color_batch = self.mesh_renderer(mesh, cameras=cameras)  # [1, 512, 512, 4]
 
         # To Image
         valid_mask_batch = (color_batch[:, :, :, [-1]] > 0)
