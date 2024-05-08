@@ -180,20 +180,16 @@ The resulting video can be found in `PROJECT_ROOT/outputs/videos/${avatar_name}/
 ## Reference
 If you find this repository useful for your work, please consider citing it as follows:
 ```bibtex
-@article{huang2023dreamwaltz,
- title={DreamWaltz: Make a Scene with Complex 3D Animatable Avatars},
- author={Yukun Huang and Jianan Wang and Ailing Zeng and He Cao and Xianbiao Qi and Yukai Shi and Zheng-Jun Zha and Lei Zhang},
- year={2023},
- eprint={2305.12529},
- archivePrefix={arXiv},
- primaryClass={cs.CV}
+@inproceedings{huang2023dreamwaltz,
+  title={{DreamWaltz: Make a Scene with Complex 3D Animatable Avatars}},
+  author={Yukun Huang and Jianan Wang and Ailing Zeng and He Cao and Xianbiao Qi and Yukai Shi and Zheng-Jun Zha and Lei Zhang},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2023}
 }
 
-@article{huang2023dreamtime,
- title={DreamTime: An Improved Optimization Strategy for Text-to-3D Content Creation},
- author={Yukun Huang and Jianan Wang and Yukai Shi and Xianbiao Qi and Zheng-Jun Zha and Lei Zhang},
- year={2023},
- eprint={2306.12422},
- archivePrefix={arXiv},
- primaryClass={cs.CV}
+@inproceedings{huang2024dreamtime,
+  title={{DreamTime: An Improved Optimization Strategy for Diffusion-Guided 3D Generation}},
+  author={Yukun Huang and Jianan Wang and Yukai Shi and Boshi Tang and Xianbiao Qi and Lei Zhang},
+  booktitle={International Conference on Learning Representations},
+  year={2024}
 }
