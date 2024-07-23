@@ -1,6 +1,9 @@
 from transformers import logging
 from diffusers import StableDiffusionControlNetPipeline, ControlNetModel, UniPCMultistepScheduler
-from diffusers.pipelines.stable_diffusion.pipeline_stable_diffusion_controlnet import MultiControlNetModel
+try:
+    from diffusers.pipelines.stable_diffusion.pipeline_stable_diffusion_controlnet import MultiControlNetModel
+except:
+    from diffusers.pipelines.controlnet.multicontrolnet import MultiControlNetModel
 from diffusers.utils import load_image
 from controlnet_aux import OpenposeDetector, MidasDetector, CannyDetector
 from typing import Any, Callable, Dict, List, Optional, Union
