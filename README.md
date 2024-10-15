@@ -12,7 +12,7 @@ This repository contains the official implementation of NeurIPS 2023 paper:
 > <sup>1</sup>International Digital Economy Academy &nbsp; <sup>2</sup>University of Science and Technology of China
 
 ## News
-- 15/10/2024: We present [DreamWaltz-G](https://yukun-huang.github.io/DreamWaltz-G/)! An enhanced version of DreamWaltz with faster speed and more expressive animations.
+- 15/10/2024: We present [DreamWaltz-G](https://yukun-huang.github.io/DreamWaltz-G/)! An enhanced 3DGS version of DreamWaltz with hand and expression control.
 - 09/01/2024: Thank [Zehuan Huang](https://github.com/huanngzh) for the [threestudio implementation](https://github.com/huanngzh/threestudio-dreamwaltz) of DreamWaltz!
 - 11/10/2023: Training and inference codes are released.
 
